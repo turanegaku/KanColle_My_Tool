@@ -20,7 +20,6 @@ bool loop = true; //ループ制御の変数
 int aircommand = 0; //計算中の制空値
 int inwepon = 0; //武器の装備数
 Fighter fi[8] = {}; //艦載機のクラス
-ifstream ifs("Fighters.txt", ios::in);
 int fsize = GET_ARRAY_SIZE(fi); //艦載機の種類数
 
 void ga(string*, int); //プロトタイプ宣言(がっつり計算)
@@ -28,6 +27,7 @@ void hu(string*, int); //プロトタイプ宣言(2,3スロットに入れる計
 void my(string*, int); //プロトタイプ宣言(手動計算)
 void sh();			   //プロトタイプ宣言(表示)
 void Fsetting(){ //艦載機のセット
+	ifstream ifs("Fighters.txt", ios::in);
 	string name, kanji;
 	int taiku, shoji, i = 0;
 	bool kansen;
@@ -99,8 +99,6 @@ MODE:
 } //mainのOWARI
 
 void ga(string* n, int sa){
-	KMS();
-	Fsetting();
 	string na[6]; //名前格納用
 	for (int i = 0; i < sa; i++){
 		na[i] = *n;
@@ -193,9 +191,7 @@ void hu(string* n, int sa){
 }
 
 void my(string* n, int sa){
-	KMS();
 	sh();
-	Fsetting();
 	string na[6]; //名前格納
 	string inName; //入力された艦娘、艦載機の名前
 	int inslot; //入力されたスロット
@@ -311,7 +307,6 @@ void my(string* n, int sa){
 }
 
 void sh(){
-	Fsetting();
 	/* 出力のHAJIMARI */
 	for (int i = 0; i < sally; i++){
 		cout << names[i] << " の装備" << endl;
