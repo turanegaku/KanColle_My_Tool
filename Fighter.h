@@ -4,22 +4,22 @@
 
 class Fighter{
 private:
-	std::string name; //ŠÍÚ‹@‚Ì–¼‘O
-	bool kansen; //ŠÍÚ‹@‚Ìí—Ş
-	int taiku; //ŠÍÚ‹@‚Ì‘Î‹ó’l
-	int shojisu; //ŠÍÚ‹@‚Ìc‚èŠ”
-	std::string kanji_name; //•\¦—p‚ÌŠ¿š‚Ì–¼‘O
+	std::string name; //è‰¦è¼‰æ©Ÿã®åå‰
+	bool kansen; //è‰¦è¼‰æ©Ÿã®ç¨®é¡
+	int taiku; //è‰¦è¼‰æ©Ÿã®å¯¾ç©ºå€¤
+	int shojisu; //è‰¦è¼‰æ©Ÿã®æ®‹ã‚Šæ‰€æŒæ•°
+	std::string kanji_name; //è¡¨ç¤ºç”¨ã®æ¼¢å­—ã®åå‰
 public:
-	void setting(std::string n, bool k, int t, int s, std::string kn); //‰Šú‰»“I‚È“z
-	void showAll();//‚»‚ÌŠÍÚ‹@‚Ìó‘Ô‚ğŒ©‚é
-	bool get_kind() { return kansen; } //ŠÍí‚©‚ğbool‚Å•Ô‚·
-	std::string get_name() { return name; } //ŠÍÚ‹@‚Ì–¼‘O‚ğ•Ô‚·
-	int get_taiku() { return taiku; } //‘Î‹ó’l‚ğ•Ô‚·
-	int get_shojisu() { return shojisu; } //Š”‚ğ•Ô‚·
-	std::string show_name() { return kanji_name; } //•\¦—p‚Ì–¼‘O‚ğ•Ô‚·
-	int equip(); //ŠÍÚ‹@‚Ì‘•”õA–¼‘O‚ğ•Ô‚µ‚ÄŠ”‚ğŒ¸‚ç‚·
+	void setting(std::string n, bool k, int t, int s, std::string kn); //åˆæœŸåŒ–çš„ãªå¥´
+	void showAll();//ãã®è‰¦è¼‰æ©Ÿã®çŠ¶æ…‹ã‚’è¦‹ã‚‹
+	bool get_kind() { return kansen; } //è‰¦æˆ¦ã‹ã‚’boolã§è¿”ã™
+	std::string get_name() { return name; } //è‰¦è¼‰æ©Ÿã®åå‰ã‚’è¿”ã™
+	int get_taiku() { return taiku; } //å¯¾ç©ºå€¤ã‚’è¿”ã™
+	int get_shojisu() { return shojisu; } //æ‰€æŒæ•°ã‚’è¿”ã™
+	std::string show_name() { return kanji_name; } //è¡¨ç¤ºç”¨ã®åå‰ã‚’è¿”ã™
+	int equip(); //è‰¦è¼‰æ©Ÿã®è£…å‚™ã€åå‰ã‚’è¿”ã—ã¦æ‰€æŒæ•°ã‚’æ¸›ã‚‰ã™
 	bool re_name(std::string na);
-	void push_shojisu() { shojisu += 1; } //‘•”õ”‚ğ‘‚â‚·
+	void push_shojisu() { shojisu += 1; } //è£…å‚™æ•°ã‚’å¢—ã‚„ã™
 };
 
 void Fighter::setting(std::string n, bool k, int t, int s, std::string kn){
@@ -30,12 +30,12 @@ void Fighter::setting(std::string n, bool k, int t, int s, std::string kn){
 	kanji_name = kn;
 }
 void Fighter::showAll(){
-	std::cout << "–¼‘O: " << kanji_name;
+	std::cout << "åå‰: " << kanji_name;
 	std::cout << " (" << name << ")" << std::endl;
-	if (kansen) std::cout << "ŠÍí";
-	else std::cout << "ŠÍU/ŠÍ”š";
-	std::cout << ", ‘Î‹ó: " << taiku;
-	std::cout << ", Š”: " << shojisu << std::endl;
+	if (kansen) std::cout << "è‰¦æˆ¦";
+	else std::cout << "è‰¦æ”»/è‰¦çˆ†";
+	std::cout << ", å¯¾ç©º: " << taiku;
+	std::cout << ", æ‰€æŒæ•°: " << shojisu << std::endl;
 }
 int Fighter::equip(){
 	if (shojisu >0)shojisu -= 1;
@@ -46,16 +46,15 @@ bool Fighter::re_name(std::string na){
 	if (na == name) return true;
 	else return false;
 }
-/* ƒAƒEƒgƒvƒbƒg—p‚Ìƒ\[ƒXƒR[ƒh */
+/* ã‚¢ã‚¦ãƒˆãƒ—ãƒƒãƒˆç”¨ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ */
 /*
 	ofstream ofs("Fighters.txt", std::ios::out);
-	ofs << "Reppu601 1 11 1 —ó•—(601‹ó)" << endl;
-	ofs << "Reppu 1 10 7 —ó•—" << endl;
-	ofs << "Shiden2 1 9 4 ‡“d‰ü“ñ" << endl;
-	ofs << "Jukuren21 1 8 2 —ë®ŠÍí21Œ^(n—û)" << endl;
-	ofs << "Zerosen601 1 9 1 —ëí52Œ^•¸(601‹ó)" << endl;
-	ofs << "Named 0 1 3 ]‘E—F‰iE‘º“c‘à" << endl;
-	ofs << "Zuiun 0 2 17 ‰_" << endl;
-	ofs << "Zuiun12 0 3 1 ‰_12Œ^" << endl;
+	ofs << "Reppu601 1 11 1 çƒˆé¢¨(601ç©º)" << endl;
+	ofs << "Reppu 1 10 7 çƒˆé¢¨" << endl;
+	ofs << "Shiden2 1 9 4 ç´«é›»æ”¹äºŒ" << endl;
+	ofs << "Jukuren21 1 8 2 é›¶å¼è‰¦æˆ¦21å‹(ç†Ÿç·´)" << endl;
+	ofs << "Zerosen601 1 9 1 é›¶æˆ¦52å‹ä¸™(601ç©º)" << endl;
+	ofs << "Named 0 1 3 æ±Ÿè‰ãƒ»å‹æ°¸ãƒ»æ‘ç”°éšŠ" << endl;
+	ofs << "Zuiun 0 2 17 ç‘é›²" << endl;
+	ofs << "Zuiun12 0 3 1 ç‘é›²12å‹" << endl;
 */
-

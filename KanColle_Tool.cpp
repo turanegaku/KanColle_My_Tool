@@ -10,24 +10,24 @@
 #define GET_ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
 using namespace std;
 
-int wepons[6][4] = {}; //Š‚·‚é‘•”õ
-string weponsName[6][4] = {}; //Š‚·‚é‘•”õ‚Ì–¼‘O
-string names[6] = {}; //oŒ‚‚·‚éŠÍ–º‚ÌƒŠƒXƒg
-int sally; //oŒ‚‚·‚éŠÍ–º‚Ì”(sally...oŒ‚‚ÌˆÓ)
-int mode = 0; //ƒ‚[ƒh‘I‘ğ‚Ì•Ï”
-int seiku = 0; //–Ú•W§‹ó’l‚Ì•Ï”
-bool roop = true; //ƒ‹[ƒv§Œä‚Ì•Ï”
-int aircommand = 0; //ŒvZ’†‚Ì§‹ó’l
-int inwepon = 0; //•Ší‚Ì‘•”õ”
-Fighter fi[8] = {}; //ŠÍÚ‹@‚ÌƒNƒ‰ƒX
+int wepons[6][4] = {}; //æ‰€æŒã™ã‚‹è£…å‚™
+string weponsName[6][4] = {}; //æ‰€æŒã™ã‚‹è£…å‚™ã®åå‰
+string names[6] = {}; //å‡ºæ’ƒã™ã‚‹è‰¦å¨˜ã®ãƒªã‚¹ãƒˆ
+int sally; //å‡ºæ’ƒã™ã‚‹è‰¦å¨˜ã®æ•°(sally...å‡ºæ’ƒã®æ„)
+int mode = 0; //ãƒ¢ãƒ¼ãƒ‰é¸æŠã®å¤‰æ•°
+int seiku = 0; //ç›®æ¨™åˆ¶ç©ºå€¤ã®å¤‰æ•°
+bool loop = true; //ãƒ«ãƒ¼ãƒ—åˆ¶å¾¡ã®å¤‰æ•°
+int aircommand = 0; //è¨ˆç®—ä¸­ã®åˆ¶ç©ºå€¤
+int inwepon = 0; //æ­¦å™¨ã®è£…å‚™æ•°
+Fighter fi[8] = {}; //è‰¦è¼‰æ©Ÿã®ã‚¯ãƒ©ã‚¹
 ifstream ifs("Fighters.txt", ios::in);
-int fsize = GET_ARRAY_SIZE(fi); //ŠÍÚ‹@‚Ìí—Ş”
+int fsize = GET_ARRAY_SIZE(fi); //è‰¦è¼‰æ©Ÿã®ç¨®é¡æ•°
 
-void ga(string*, int); //ƒvƒƒgƒ^ƒCƒvéŒ¾(‚ª‚Á‚Â‚èŒvZ)
-void hu(string*, int); //ƒvƒƒgƒ^ƒCƒvéŒ¾(2,3ƒXƒƒbƒg‚É“ü‚ê‚éŒvZ)
-void my(string*, int); //ƒvƒƒgƒ^ƒCƒvéŒ¾(è“®ŒvZ)
-void sh();			   //ƒvƒƒgƒ^ƒCƒvéŒ¾(•\¦)
-void Fsetting(){ //ŠÍÚ‹@‚ÌƒZƒbƒg
+void ga(string*, int); //ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€(ãŒã£ã¤ã‚Šè¨ˆç®—)
+void hu(string*, int); //ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€(2,3ã‚¹ãƒ­ãƒƒãƒˆã«å…¥ã‚Œã‚‹è¨ˆç®—)
+void my(string*, int); //ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€(æ‰‹å‹•è¨ˆç®—)
+void sh();			   //ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€(è¡¨ç¤º)
+void Fsetting(){ //è‰¦è¼‰æ©Ÿã®ã‚»ãƒƒãƒˆ
 	string name, kanji;
 	int taiku, shoji, i = 0;
 	bool kansen;
@@ -42,29 +42,29 @@ int main(){
 	KMS();
 	Fsetting();
 	bool endCheck = true;
-	/* “o˜^‚ÌHAJIMARI */
-	cout << "‹ó•ê‚ÌŠÍ–º‚Í‰½loŒ‚‚µ‚Ü‚·‚©H ";
+	/* ç™»éŒ²ã®HAJIMARI */
+	cout << "ç©ºæ¯ã®è‰¦å¨˜ã¯ä½•äººå‡ºæ’ƒã—ã¾ã™ã‹ï¼Ÿ ";
 	cin >> sally;
 	if (sally < 1 || 6 < sally) return 0;
 	for (int i = 0; i < sally; i++){
-		cout << "–¼‘O‚Ì“o˜^‚ğ‚µ‚Ü‚·B–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B" << endl;
+		cout << "åå‰ã®ç™»éŒ²ã‚’ã—ã¾ã™ã€‚åå‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚" << endl;
 		cin >> names[i];
 		if (kms.find(names[i]) == kms.end()){
-			cout << "•s³‚È“ü—Í‚Å‚·B“ü—Í‚µ‚È‚¨‚µ‚Ä‚­‚¾‚³‚¢B" << endl;
+			cout << "ä¸æ­£ãªå…¥åŠ›ã§ã™ã€‚å…¥åŠ›ã—ãªãŠã—ã¦ãã ã•ã„ã€‚" << endl;
 			i -= 1;
 		}
 	}
-	/* “o˜^‚ÌOWARI */
+	/* ç™»éŒ²ã®OWARI */
 MODE:
-	/* ƒ‚[ƒh‚Æ–Ú•W§‹ó’l‚ÌNYURYOKU */
-	cout << "g—p‚µ‚½‚¢ƒ‚[ƒh‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢" << endl;
-	cout << "1: ©“®‘•”õ(‚ª‚Á‚Â‚è), 2: ©“®‘•”õ(UŒ‚Œü‚¯), 3: è“®‘•”õ: ";
+	/* ãƒ¢ãƒ¼ãƒ‰ã¨ç›®æ¨™åˆ¶ç©ºå€¤ã®NYURYOKU */
+	cout << "ä½¿ç”¨ã—ãŸã„ãƒ¢ãƒ¼ãƒ‰ã‚’é¸æŠã—ã¦ãã ã•ã„" << endl;
+	cout << "1: è‡ªå‹•è£…å‚™(ãŒã£ã¤ã‚Š), 2: è‡ªå‹•è£…å‚™(æ”»æ’ƒå‘ã‘), 3: æ‰‹å‹•è£…å‚™: ";
 	cin >> mode;
 
-	/* ƒ‚[ƒh‘I‘ğ‚ÌHAJIMARI */
+	/* ãƒ¢ãƒ¼ãƒ‰é¸æŠã®HAJIMARI */
 	switch (mode){
 	case 1:
-		ga(names, sally); //‚ª‚Á‚Â‚èŒvZ
+		ga(names, sally); //ãŒã£ã¤ã‚Šè¨ˆç®—
 		sh();
 		break;
 	case 2:
@@ -72,58 +72,58 @@ MODE:
 		sh();
 		break;
 	case 3:
-		my(names, sally); //è“®ŒvZ
+		my(names, sally); //æ‰‹å‹•è¨ˆç®—
 		break;
 	default:
-		cout << "•s³‚È“ü—Í‚Å‚·B" << endl;
+		cout << "ä¸æ­£ãªå…¥åŠ›ã§ã™ã€‚" << endl;
 		goto MODE;
 		break;
 	}
-	roop = true; //C³‚Ì‚É‚¿‚á‚ñ‚Æg‚¦‚é‚æ‚¤‚É
-	/* ƒ‚[ƒh‘I‘ğ‚ÌOWARI */
+	loop = true; //ä¿®æ­£ã®æ™‚ã«ã¡ã‚ƒã‚“ã¨ä½¿ãˆã‚‹ã‚ˆã†ã«
+	/* ãƒ¢ãƒ¼ãƒ‰é¸æŠã®OWARI */
 
-	/* è“®C³ƒ‚[ƒh‚ÌSENTAKU */
+	/* æ‰‹å‹•ä¿®æ­£ãƒ¢ãƒ¼ãƒ‰ã®SENTAKU */
 	string fix;
-	cout << "C³‚µ‚Ü‚·‚©?(yes/no): ";
+	cout << "ä¿®æ­£ã—ã¾ã™ã‹?(yes/no): ";
 	cin >> fix;
 	if (fix == "yes") my(names, sally);
-	/* è“®C³ƒ‚[ƒh‚ÌOWARI */
+	/* æ‰‹å‹•ä¿®æ­£ãƒ¢ãƒ¼ãƒ‰ã®OWARI */
 
-	/* I—¹‚ÌŠm”F */
+	/* çµ‚äº†ã®ç¢ºèª */
 	while (endCheck){
 		cout << "OK?" << endl;
 		string ok;
 		cin >> ok;
 		if (ok == "ok") endCheck = false;
 	}
-} //main‚ÌOWARI
+} //mainã®OWARI
 
 void ga(string* n, int sa){
 	KMS();
 	Fsetting();
-	string na[6]; //–¼‘OŠi”[—p
+	string na[6]; //åå‰æ ¼ç´ç”¨
 	for (int i = 0; i < sa; i++){
 		na[i] = *n;
 		++n;
 	}
-	cout << "–Ú•W‚Ì§‹ó’l‚ğ“ü—Í‚µ‚Ä’¸‘Õ: ";
+	cout << "ç›®æ¨™ã®åˆ¶ç©ºå€¤ã‚’å…¥åŠ›ã—ã¦é ‚æˆ´: ";
 	cin >> seiku;
-	while (roop){
+	while (loop){
 		int i = 0, j = 0;
 		int max = 0;
 		int mi = 0, mj = 0;
 		aircommand = 0;
-		/* “‹Ú‚µ‚Ä‚È‚¢Å‘åƒXƒƒbƒg‚ÌŒŸõ */
+		/* æ­è¼‰ã—ã¦ãªã„æœ€å¤§ã‚¹ãƒ­ãƒƒãƒˆã®æ¤œç´¢ */
 		for (i = 0; i < sa; i++){
 			for (j = 0; j < 4; j++){
 				if (kms[na[i]][j] > max && wepons[i][j] == 0){
 					max = kms[na[i]][j];
-					mi = i; //‘•”õ‚µ‚Ä‚È‚¢Å‘åƒXƒƒbƒg(ŠÍ–º‚ÌˆÊ’u)
-					mj = j; //‘•”õ‚µ‚Ä‚È‚¢Å‘åƒXƒƒbƒg(ƒXƒƒbƒg‚ÌˆÊ’u)
+					mi = i; //è£…å‚™ã—ã¦ãªã„æœ€å¤§ã‚¹ãƒ­ãƒƒãƒˆ(è‰¦å¨˜ã®ä½ç½®)
+					mj = j; //è£…å‚™ã—ã¦ãªã„æœ€å¤§ã‚¹ãƒ­ãƒƒãƒˆ(ã‚¹ãƒ­ãƒƒãƒˆã®ä½ç½®)
 				}
 			}
 		}
-		/* ƒXƒƒbƒg‚Ì‘•”õ */
+		/* ã‚¹ãƒ­ãƒƒãƒˆã®è£…å‚™ */
 		for (i = 0; i < fsize; i++){
 			if (fi[i].get_shojisu() > 0){
 				wepons[mi][mj] = fi[i].equip();
@@ -132,30 +132,30 @@ void ga(string* n, int sa){
 				break;
 			}
 		}
-		/* ŒvZ‚·‚é */
+		/* è¨ˆç®—ã™ã‚‹ */
 		for (i = 0; i < sa; i++){
 			for (j = 0; j < 4; j++){
 				aircommand += int(wepons[i][j] * sqrt(kms[na[i]][j]));
 			}
 		}
-		/* §‹ó’l‚Æ‚Ì”äŠr */
-		if (seiku < aircommand) roop = false;
-		else if (inwepon == sa * 4) roop = false; //‘SÏ‚İ‚¾‚Á‚½‚ç”²‚¯‚é
+		/* åˆ¶ç©ºå€¤ã¨ã®æ¯”è¼ƒ */
+		if (seiku < aircommand) loop = false;
+		else if (inwepon == sa * 4) loop = false; //å…¨ç©ã¿ã ã£ãŸã‚‰æŠœã‘ã‚‹
 	}
 }
 
 void hu(string* n, int sa){
 	KMS();
 	Fsetting();
-	string na[6]; //–¼‘OŠi”[
-	vector<pair<int, pair<int, int>>> Daughters(sa * 2); //ŠÍ–º‚Ì–¼‘O‚ÆƒXƒƒbƒg”‚ğŠo‚¦‚é
-	vector<pair<int, int>> temp(4); //first‚É‚Í“‹Ú” second‚É‚ÍêŠ‚ğŠo‚¦‚é
+	string na[6]; //åå‰æ ¼ç´
+	vector<pair<int, pair<int, int>>> Daughters(sa * 2); //è‰¦å¨˜ã®åå‰ã¨ã‚¹ãƒ­ãƒƒãƒˆæ•°ã‚’è¦šãˆã‚‹
+	vector<pair<int, int>> temp(4); //firstã«ã¯æ­è¼‰æ•° secondã«ã¯å ´æ‰€ã‚’è¦šãˆã‚‹
 
 	for (int i = 0; i < sa; i++){
 		na[i] = *n;
 		++n;
 	}
-//	cout << "–Ú•W‚Ì§‹ó’l‚ğ“ü—Í‚µ‚Ä‚Ë: ";
+//	cout << "ç›®æ¨™ã®åˆ¶ç©ºå€¤ã‚’å…¥åŠ›ã—ã¦ã­: ";
 //	cin >> seiku;
 	for (int i = 0; i < sa; i++) {
 		for (int j = 0; j < 4; j++){
@@ -163,19 +163,19 @@ void hu(string* n, int sa){
 			temp[j].second = j;
 		}
 		sort(temp.begin(), temp.end(), greater<pair<int, int> >());
-		/* 2”Ô–Ú‚ÌƒXƒƒbƒg‚ğ“o˜^ */
-		Daughters[i * 2].first = temp[1].first; //ƒXƒƒbƒg”
-		Daughters[i * 2].second.first = i; //–¼‘O(‰½”Ô–Ú‚É“o˜^‚³‚ê‚Ä‚¢‚éŠÍ–º‚©)
-		Daughters[i * 2].second.second = temp[1].second; //‘•”õ‚ÌêŠ
-		/* 3”Ô–Ú‚ÌƒXƒƒbƒg‚ğ“o˜^ */
-		Daughters[i * 2 + 1].first = temp[2].first; //ƒXƒƒbƒg”
-		Daughters[i * 2 + 1].second.first = i; //–¼‘O(‰½”Ô–Ú‚É“o˜^‚³‚ê‚Ä‚¢‚éŠÍ–º‚©)
-		Daughters[i * 2 + 1].second.second = temp[2].second; //‘•”õ‚ÌêŠ
+		/* 2ç•ªç›®ã®ã‚¹ãƒ­ãƒƒãƒˆã‚’ç™»éŒ² */
+		Daughters[i * 2].first = temp[1].first; //ã‚¹ãƒ­ãƒƒãƒˆæ•°
+		Daughters[i * 2].second.first = i; //åå‰(ä½•ç•ªç›®ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹è‰¦å¨˜ã‹)
+		Daughters[i * 2].second.second = temp[1].second; //è£…å‚™ã®å ´æ‰€
+		/* 3ç•ªç›®ã®ã‚¹ãƒ­ãƒƒãƒˆã‚’ç™»éŒ² */
+		Daughters[i * 2 + 1].first = temp[2].first; //ã‚¹ãƒ­ãƒƒãƒˆæ•°
+		Daughters[i * 2 + 1].second.first = i; //åå‰(ä½•ç•ªç›®ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹è‰¦å¨˜ã‹)
+		Daughters[i * 2 + 1].second.second = temp[2].second; //è£…å‚™ã®å ´æ‰€
 	}
-	/* ƒXƒƒbƒg‚Ì‘å‚«‚¢‡‚Éƒ\[ƒg */
+	/* ã‚¹ãƒ­ãƒƒãƒˆã®å¤§ãã„é †ã«ã‚½ãƒ¼ãƒˆ */
 	sort(Daughters.begin(), Daughters.end(), greater<pair<int, pair<int, int>> >());
 
-	for (int i = 0; i < sa*2; i++) { //•Ší‚Ì‘•”õ
+	for (int i = 0; i < sa*2; i++) { //æ­¦å™¨ã®è£…å‚™
 		for (int j = 0; j < fsize; j++) {
 			if (fi[j].get_shojisu() > 0){
 				wepons[Daughters[i].second.first][Daughters[i].second.second] = fi[j].equip();
@@ -185,7 +185,7 @@ void hu(string* n, int sa){
 		}
 	}
 
-	for (int i = 0; i < sa; i++){ //§‹ó’l‚ÌŒvZ
+	for (int i = 0; i < sa; i++){ //åˆ¶ç©ºå€¤ã®è¨ˆç®—
 		for (int j = 0; j < 4; j++){
 			aircommand += int(wepons[i][j] * sqrt(kms[na[i]][j]));
 		}
@@ -196,22 +196,22 @@ void my(string* n, int sa){
 	KMS();
 	sh();
 	Fsetting();
-	string na[6]; //–¼‘OŠi”[
-	string inName; //“ü—Í‚³‚ê‚½ŠÍ–ºAŠÍÚ‹@‚Ì–¼‘O
-	int inslot; //“ü—Í‚³‚ê‚½ƒXƒƒbƒg
+	string na[6]; //åå‰æ ¼ç´
+	string inName; //å…¥åŠ›ã•ã‚ŒãŸè‰¦å¨˜ã€è‰¦è¼‰æ©Ÿã®åå‰
+	int inslot; //å…¥åŠ›ã•ã‚ŒãŸã‚¹ãƒ­ãƒƒãƒˆ
 	for (int i = 0; i < sa; i++){
 		na[i] = *n;
 		++n;
 	}
-	while (roop){
-		int kanmusui; //“ü—Í‚³‚ê‚½ŠÍ–º‚ª‰½”Ô–Ú‚É‚¢‚é‚©‚ğ•Û—L
-		int kansaikii; //“ü—Í‚³‚ê‚½ŠÍÚ‹@‚ª‰½”Ô–Ú‚É‚ ‚é‚©‚ğ•Û—L
-		int sloti; //“ü—Í‚³‚ê‚½ƒXƒƒbƒg‚ÌêŠ‚ğ•Û—L
+	while (loop){
+		int kanmusui; //å…¥åŠ›ã•ã‚ŒãŸè‰¦å¨˜ãŒä½•ç•ªç›®ã«ã„ã‚‹ã‹ã‚’ä¿æœ‰
+		int kansaikii; //å…¥åŠ›ã•ã‚ŒãŸè‰¦è¼‰æ©ŸãŒä½•ç•ªç›®ã«ã‚ã‚‹ã‹ã‚’ä¿æœ‰
+		int sloti; //å…¥åŠ›ã•ã‚ŒãŸã‚¹ãƒ­ãƒƒãƒˆã®å ´æ‰€ã‚’ä¿æœ‰
 		aircommand = 0;
-		/* –¼‘O“ü—Í */
+		/* åå‰å…¥åŠ› */
 	NAMING:
-		cout << "’N‚Ì‘•”õ‚ğ•ÒW‚·‚é?" << endl;
-		cin >> inName; //ŠÍ–º‚Ì–¼‘O“ü—Í
+		cout << "èª°ã®è£…å‚™ã‚’ç·¨é›†ã™ã‚‹?" << endl;
+		cin >> inName; //è‰¦å¨˜ã®åå‰å…¥åŠ›
 		for (int i = 0; i < sa; i++){
 			if (inName == na[i]){
 				kanmusui = i;
@@ -220,44 +220,44 @@ void my(string* n, int sa){
 			else kanmusui = 99;
 		}
 		if (kanmusui == 99){
-			cout << "•s³‚È“ü—Í‚Å‚·B" << endl;
+			cout << "ä¸æ­£ãªå…¥åŠ›ã§ã™ã€‚" << endl;
 			goto NAMING;
 		}
 
-		/* ŠÍÚ‹@“ü—Í */
-		while (roop){
-			cout << "‚Ç‚ÌŠÍÚ‹@‚ğ‘•”õ‚·‚é?" << endl;
-			cin >> inName; //ŠÍÚ‹@‚Ì–¼‘O“ü—Í
+		/* è‰¦è¼‰æ©Ÿå…¥åŠ› */
+		while (loop){
+			cout << "ã©ã®è‰¦è¼‰æ©Ÿã‚’è£…å‚™ã™ã‚‹?" << endl;
+			cin >> inName; //è‰¦è¼‰æ©Ÿã®åå‰å…¥åŠ›
 			for (int i = 0; i < fsize; i++){
 				if (inName == fi[i].get_name()){
 					kansaikii = i;
-					roop = false;
+					loop = false;
 					break;
 				}
 				else kansaikii = 99;
 			}
 			if (inName == "out") {
-				roop = false;
+				loop = false;
 				kansaikii = 90;
 			}
 			if (kansaikii == 99 || fi[kansaikii].get_shojisu() <= 0){
-				cout << "•s³‚È“ü—Í‚Å‚·B" << endl;
+				cout << "ä¸æ­£ãªå…¥åŠ›ã§ã™ã€‚" << endl;
 			}
 		}
-		roop = true;
+		loop = true;
 
-		/* ƒXƒƒbƒg“ü—Í */
-		while (roop){
-			cout << "‚Ç‚ÌƒXƒƒbƒg‚É‘•”õ‚·‚é?" << endl;
+		/* ã‚¹ãƒ­ãƒƒãƒˆå…¥åŠ› */
+		while (loop){
+			cout << "ã©ã®ã‚¹ãƒ­ãƒƒãƒˆã«è£…å‚™ã™ã‚‹?" << endl;
 			if (cin >> inslot)
 				if (1 <= inslot && inslot <= 4){
-					roop = false; //ƒXƒƒbƒg‚Ì“ü—Í
+					loop = false; //ã‚¹ãƒ­ãƒƒãƒˆã®å…¥åŠ›
 				}
-				else cout << "•s³‚È“ü—Í‚Å‚·" << endl;
+				else cout << "ä¸æ­£ãªå…¥åŠ›ã§ã™" << endl;
 			else {
 				cin.clear();
 				cin.ignore();
-				cout << "•s³‚È“ü—Í‚Å‚·" << endl;
+				cout << "ä¸æ­£ãªå…¥åŠ›ã§ã™" << endl;
 			}
 
 			sloti = inslot - 1;
@@ -266,11 +266,11 @@ void my(string* n, int sa){
 					weponsName[kanmusui][sloti] = fi[i].show_name();
 			}
 		}
-		roop = true;
-		/* ƒXƒƒbƒg“ü—ÍI‚í‚è */
+		loop = true;
+		/* ã‚¹ãƒ­ãƒƒãƒˆå…¥åŠ›çµ‚ã‚ã‚Š */
 
-		/* ‘•”õ‚ğ‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ìƒ`ƒFƒbƒN */
-		if (inName == "out"){ //‘•”õŠO‚µ
+		/* è£…å‚™ã‚’ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã®ãƒã‚§ãƒƒã‚¯ */
+		if (inName == "out"){ //è£…å‚™å¤–ã—
 			for (int i = 0; i < fsize; i++){
 				if (wepons[kanmusui][sloti] == fi[i].get_taiku()){
 					fi[i].push_shojisu();
@@ -291,39 +291,39 @@ void my(string* n, int sa){
 			}
 		}
 
-		/* ŒvZ‚ÌHAJIMARI */
+		/* è¨ˆç®—ã®HAJIMARI */
 	CALC:
 		for (int i = 0; i < sa; i++){
 			for (int j = 0; j < 4; j++){
 				aircommand += int(wepons[i][j] * sqrt(kms[na[i]][j]));
 			}
 		}
-		/* ŒvZ‚ÌOWARI */
-		/* o—Í‚ÌHAJIMARI */
+		/* è¨ˆç®—ã®OWARI */
+		/* å‡ºåŠ›ã®HAJIMARI */
 		sh();
-		/* o—Í‚ÌOWARI */
-		/* I—¹ˆ— */
-		cout << "–‘«?(yes/no)" << endl;
+		/* å‡ºåŠ›ã®OWARI */
+		/* çµ‚äº†å‡¦ç† */
+		cout << "æº€è¶³?(yes/no)" << endl;
 		string ok;
 		cin >> ok;
-		if (ok == "yes") roop = false;
+		if (ok == "yes") loop = false;
 	}
 }
 
 void sh(){
 	Fsetting();
-	/* o—Í‚ÌHAJIMARI */
+	/* å‡ºåŠ›ã®HAJIMARI */
 	for (int i = 0; i < sally; i++){
-		cout << names[i] << " ‚Ì‘•”õ" << endl;
+		cout << names[i] << " ã®è£…å‚™" << endl;
 		for (int j = 0; j < 4; j++){
 			cout << kms[names[i]][j] << ": ";
-			if (weponsName[i][j] == "" || wepons[i][j] == 0)weponsName[i][j] = "‚È‚µ";
+			if (weponsName[i][j] == "" || wepons[i][j] == 0)weponsName[i][j] = "ãªã—";
 			cout << weponsName[i][j] << endl;
 		}
 	}
-	if (inwepon == sally * 4 && aircommand < seiku) cout << "‚±‚Ì•Ò¬‚Å‚Í–³—‚Å‚·" << endl;
-	cout << "§‹ó’l‚Í " << aircommand << " ‚Å‚·B" << endl;
-	cout << "c‚è‚ÌŠÍÚ‹@‚Í" << endl;
+	if (inwepon == sally * 4 && aircommand < seiku) cout << "ã“ã®ç·¨æˆã§ã¯ç„¡ç†ã§ã™" << endl;
+	cout << "åˆ¶ç©ºå€¤ã¯ " << aircommand << " ã§ã™ã€‚" << endl;
+	cout << "æ®‹ã‚Šã®è‰¦è¼‰æ©Ÿã¯" << endl;
 	for (int i = 0; i < fsize; i++) fi[i].showAll();
 	int bonus_check = 0;
 	for (int i = 0; i < sally; i++){
@@ -332,7 +332,7 @@ void sh(){
 		}
 	}
 	if (bonus_check != sally * 4){
-		cout << "n—û“xƒ{[ƒiƒX‚ğŠÜ‚ß‚éH(yes/no) ";
+		cout << "ç†Ÿç·´åº¦ãƒœãƒ¼ãƒŠã‚¹ã‚’å«ã‚ã‚‹ï¼Ÿ(yes/no) ";
 		string bonus;
 		cin >> bonus;
 		if (bonus == "yes"){
@@ -344,8 +344,8 @@ void sh(){
 					}
 				}
 			}
-			cout << "ƒ{[ƒiƒX‚ğŠÜ‚ß‚½§‹ó’l‚Í " << aircommand << " ‚Å‚·B" << endl;
+			cout << "ãƒœãƒ¼ãƒŠã‚¹ã‚’å«ã‚ãŸåˆ¶ç©ºå€¤ã¯ " << aircommand << " ã§ã™ã€‚" << endl;
 		}
 	}
-	/* o—Í‚ÌOWARI */
+	/* å‡ºåŠ›ã®OWARI */
 }
