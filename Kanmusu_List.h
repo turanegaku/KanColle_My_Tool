@@ -49,8 +49,8 @@ void KMS(){
 	kms["Mikuma"] = { 5, 6, 5, 3 };
 	kms["Suzuya"] = { 5, 6, 5, 3 };
 	kms["Kumano"] = { 5, 6, 5, 3 };
-	kms["Tone"] = { 2, 2, 9, 5 };
-	kms["Chikuma"] = { 2, 2, 9, 5 };
+	kms["Tone2"] = { 2, 2, 9, 5 };
+	kms["Chikuma2"] = { 2, 2, 9, 5 };
 	/* その他 */
 	kms["Akitsumaru"] = { 8, 8, 8, 0 };
 }
