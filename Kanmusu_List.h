@@ -4,7 +4,7 @@
 std::map<std::string, std::vector<int>> kms;
 
 void KMS(){
-	/* ³‹K‹ó•ê */
+	/* æ­£è¦ç©ºæ¯ */
 	kms["Akagi"] = { 20, 20, 32, 10 };
 	kms["Kaga"] = { 20, 20, 46, 12 };
 	kms["Soryu"] = { 18, 27, 18, 10 };
@@ -19,11 +19,11 @@ void KMS(){
 	kms["Amagi"] = { 18, 21, 27, 3 };
 	kms["Katsuragi"] = { 18, 21, 27, 3 };
 	kms["katuragi"] = { 18, 24, 3, 6 };
-	/* ‘•b‹ó•ê */
+	/* è£…ç”²ç©ºæ¯ */
 	kms["Taiho"] = { 30, 24, 24, 8 };
 	kms["Shokaku2kou"] = { 34, 21, 12, 9 };
 	kms["Zuikaku2kou"] = { 34, 24, 12, 6 };
-	/* Œy‹ó•ê */
+	/* è»½ç©ºæ¯ */
 	kms["Hosho"] = { 14, 16, 12, 0 };
 	kms["Ryujo"] = { 9, 24, 5, 5 };
 	kms["Ryujo2"] = { 18, 28, 6, 3 };
@@ -37,20 +37,20 @@ void KMS(){
 	kms["Chitose2"] = { 24, 16, 11, 8 };
 	kms["Chiyoda"] = { 21, 9, 6, 0 };
 	kms["Chiyoda2"] = { 24, 16, 11, 8 };
-	/* q‹óíŠÍ */
+	/* èˆªç©ºæˆ¦è‰¦ */
 	kms["Fuso"] = { 10, 10, 10, 10 };
 	kms["Fuso2"] = { 4, 4, 9, 23 };
 	kms["Yamashiro"] = { 10, 10, 10, 10 };
 	kms["Yamashiro2"] = { 4, 4, 9, 23 };
 	kms["Ise"] = { 11, 11, 11, 14 };
 	kms["Hyuga"] = { 11, 11, 11, 14 };
-	/* q‹ó„—mŠÍ */
+	/* èˆªç©ºå·¡æ´‹è‰¦ */
 	kms["Mogami"] = { 5, 6, 5, 3 };
 	kms["Mikuma"] = { 5, 6, 5, 3 };
 	kms["Suzuya"] = { 5, 6, 5, 3 };
 	kms["Kumano"] = { 5, 6, 5, 3 };
 	kms["Tone"] = { 2, 2, 9, 5 };
 	kms["Chikuma"] = { 2, 2, 9, 5 };
-	/* ‚»‚Ì‘¼ */
+	/* ãã®ä»– */
 	kms["Akitsumaru"] = { 8, 8, 8, 0 };
 }
