@@ -58,10 +58,10 @@ int main() {
   ifstream fin("data/api_start2");
   while(fin >> v);
   fin.close();
-  picojson::value api_mst_ship = picojson::value(picojson::object());
+  picojson::object api_mst_ship;
   for (picojson::value s : v.get("api_mst_ship").get<picojson::array>()) {
     string name = s.get("api_name").get<string>();
-    api_mst_ship.get<picojson::object>().insert({name, s});
+    api_mst_ship.insert({name, s});
   }
 
   // ===== number of ships ===== //
@@ -74,11 +74,11 @@ int main() {
   REP(i, n){
     string name = "";
     inputUntilCorrect(name, string("#"), [i, n] {printf("艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", i + 1, n); }, ":無効な名前です．", [api_mst_ship](string name){
-      return !api_mst_ship.contains(name);
+      return !EXIST(api_mst_ship, name);
     });
 
     cout << name << endl;
-    member[i] = api_mst_ship.get(name);
+    member[i] = api_mst_ship[name];
     for(auto st : state) {
       cout << st.first << ':';
       if(member[i].contains(st.second.first)) {
