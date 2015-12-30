@@ -7,3 +7,4 @@ Debug/
 run.sh
 .prebuild
 *.o
+private.json
