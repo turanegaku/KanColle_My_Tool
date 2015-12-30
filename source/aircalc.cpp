@@ -58,6 +58,7 @@ int main() {
   ifstream fin("data/api_start2");
   while(fin >> v);
   fin.close();
+  picojson::array api_mst_stype = v.get("api_mst_stype").get<picojson::array>();
   picojson::object api_mst_ship;
   for (picojson::value s : v.get("api_mst_ship").get<picojson::array>()) {
     string name = s.get("api_name").get<string>();
@@ -77,8 +78,10 @@ int main() {
       return !EXIST(api_mst_ship, name);
     });
 
-    cout << name << endl;
     member[i] = api_mst_ship[name];
+    int stype = member[i].get("api_stype").get<double>();
+    cout << api_mst_stype[stype - 1].get("api_name").get<string>() << "　";
+    cout << name << endl;
     for(auto st : state) {
       cout << st.first << ':';
       if(member[i].contains(st.second.first)) {
