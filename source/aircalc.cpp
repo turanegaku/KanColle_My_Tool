@@ -116,10 +116,33 @@ int main() {
     api_mst_ship.insert({name, *s});
   }
   picojson::array have_slotitems;
-  FORIT(equip, api_mst_slotitem){
-    if(equip->get("api_id").get<double>() > 500) continue;
-    have_slotitems.push_back(*equip);
+  ifstream prvfi("private.json");
+  if (prvfi) {
+    cout << "there" << endl;
+    picojson::value prv;
+    while(prvfi >> prv);
+    FORIT(equip, api_mst_slotitem){
+      string name = equip->get("api_name").get<string>();
+      if (prv.contains(name)) {
+        REP(i, prv.get(name).get<double>()){
+          have_slotitems.push_back(*equip);
+        }
+      }
+    }
+  }else{
+    cout << "none" << endl;
+    auto prvo = picojson::object();
+    FORIT(equip, api_mst_slotitem){
+      if(equip->get("api_id").get<double>() > 500) continue;
+      prvo[equip->get("api_name").get < string > ()] = picojson::value(double(1));
+      have_slotitems.push_back(*equip);
+    }
+
+    ofstream prvfo("private.json");
+    prvfo << picojson::value(prvo).serialize(true) << endl;
+    prvfo.close();
   }
+  prvfi.close();
   sort(RALL(have_slotitems), [] ( const picojson::value& lhs, const picojson::value& rhs ) {
     return lhs.get("api_tyku").get<double>() < rhs.get("api_tyku").get<double>();
   });
@@ -212,7 +235,7 @@ int main() {
     cout << member[i].get("api_name") << endl;
     FORIT(slot, ship){
       printf("[%2d]: ", slot->first);
-      if (!slot->second.is<picojson::null>()){
+      if (!slot->second.is<picojson::null>()) {
         cout << slot->second.get("api_name").get<string>();
         printf("<%d>", (int)slot->second.get("api_tyku").get<double>());
       }
