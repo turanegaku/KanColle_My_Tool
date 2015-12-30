@@ -2,11 +2,14 @@ CXX				= g++
 CXXFLAGS	= -std=c++11 -Wall
 SRCDIR		= ./source
 
-origin: $(SRCDIR)/aircalc.cpp
-	$(CXX) $(CXXFLAGS) $^ -o $@.o
+run: origin.o
+	./origin.o
 
-upstream: $(SRCDIR)/KanColle_Tool.cpp
-	$(CXX) $(CXXFLAGS) $^ -o $@.o
+origin.o: $(SRCDIR)/aircalc.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+upstream.o: $(SRCDIR)/KanColle_Tool.cpp
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
 clean:
-	-rm -f upstream
+	-rm -f *.o
