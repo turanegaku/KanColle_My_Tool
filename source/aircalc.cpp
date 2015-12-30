@@ -38,7 +38,20 @@ vector<pair<string, pair<string, int>>> state = {
   {"運　", {"api_luck", -1}},
 };
 
+template <class T, typename F> void inputUntilCorrect(T &input, T begin, T end, string message, string error, F loop){
+  do {
+    if (input == end) {
+      cout << "終了します．" << endl;
+      exit(0);
+    }
+    if (input != begin) cout << input << error << endl;
+    cout << message;
+    cin >> input;
+  } while(loop(input));
+}
+
 int main() {
+  // ===== load datas ===== //
   picojson::value v;
   ifstream fin("data/api_start2");
   while(fin >> v);
@@ -49,28 +62,18 @@ int main() {
     api_mst_ship.get<picojson::object>().insert({name, s});
   }
 
-
+  // ===== number of ships ===== //
   int n = 1;
-  do {
-    if (n == 0) {
-      cout << "終了します．" << endl;
-      return 0;
-    }
-    if (n != 1) printf("%d:範囲外です．\n", n);
-    cout << "艦娘は何人出撃しますか？ [1-6] end 0: ";
-    cin >> n;
-  } while(n < 1 || 6 < n);
+  // inputUntilCorrect(n, 1, 0, "艦娘は何人出撃しいますか？ [1-6] end 0: ", ":範囲外です．", f);
+  inputUntilCorrect(n, n, 0, "艦娘は何人出撃しますか？ [1-6] end 0: ", ":範囲外です．", [](int n) {
+    return n < 1 || 6 < n;
+  });
+  // ===== who take with ===== //
   vector<string> member(n, "");
   REP(i, n){
-    do {
-      if (member[i] == "#") {
-        cout << "終了します．" << endl;
-        return 0;
-      }
-      if (member[i] != "") printf("%s:無効な名前です．\n", member[i].c_str());
-      printf("艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", i + 1, n);
-      cin >> member[i];
-    } while(!api_mst_ship.contains(member[i]));
+    inputUntilCorrect(member[i], member[i], string("#"), "艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", ":無効な名前です．", [api_mst_ship](string name){
+      return !api_mst_ship.contains(name);
+    });
 
     cout << member[i] << endl;
     picojson::value s = api_mst_ship.get(member[i]);
