@@ -34,7 +34,7 @@ vector<pair<string, pair<string, int>>> state = {
   {"雷装", {"api_raig", 1}},
   {"対空", {"api_tyku", 1}},
   {"対潜", {"", 0}},
-  {"索敵", {"api_taik", 1}},/**/
+  {"索敵", {"", 0}},
   {"運　", {"api_luck", -1}},
 };
 
