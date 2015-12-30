@@ -4,5 +4,6 @@ Debug/
 *.out
 *.exe
 
+run.sh
 .prebuild
 *.o
