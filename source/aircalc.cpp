@@ -49,6 +49,11 @@ vector<pair<string, pair<string, int>>> state = {
   {"運　", {"api_luck", -1}},
 };
 
+vector<const char *> plan_name = {
+  "greedy",
+  "891 method",
+};
+
 template <class T, typename F1, typename F2> void inputUntilCorrect(T &input, T end, F1 message, string error, F2 loop){
   T begin = input;
   do {
@@ -62,6 +67,17 @@ template <class T, typename F1, typename F2> void inputUntilCorrect(T &input, T 
   } while(loop(input));
 }
 
+double calcValue(vector<vector<pair<int, picojson::value>>> &deck){
+  int res = 0;
+  FORIT(ship, deck){
+    FORIT(slot, *ship){
+      if (slot->second.is<picojson::null>()) continue;
+      res += slot->second.get("api_tyku").get<double>() * sqrt(slot->first) + 25;
+    }
+  }
+  return res;
+}
+
 int main() {
   // ===== load datas ===== //
   picojson::value v;
@@ -73,7 +89,9 @@ int main() {
   picojson::array api_mst_slotitem = v.get("api_mst_slotitem").get<picojson::array>();
   FORIT(equiptype, v.get("api_mst_slotitem_equiptype").get<picojson::array>()) {
     equiptype->get<picojson::object>().insert({"slotitems", picojson::value(picojson::array())});
-    string id = to_string((int)equiptype->get("api_id").get<double>());
+    int iid = (int)equiptype->get("api_id").get<double>();
+    if (iid > 500) continue;
+    string id = to_string(iid);
     api_mst_slotitem_equiptype.insert({id, *equiptype});
   }
   // === register slotitem to slotitem_equiptype === //
@@ -97,6 +115,14 @@ int main() {
     string name = s->get("api_name").get<string>();
     api_mst_ship.insert({name, *s});
   }
+  picojson::array have_slotitems;
+  FORIT(equip, api_mst_slotitem){
+    if(equip->get("api_id").get<double>() > 500) continue;
+    have_slotitems.push_back(*equip);
+  }
+  sort(RALL(have_slotitems), [] ( const picojson::value& lhs, const picojson::value& rhs ) {
+    return lhs.get("api_tyku").get<double>() < rhs.get("api_tyku").get<double>();
+  });
 
   // ===== number of ships ===== //
   int n = 1;
@@ -114,14 +140,14 @@ int main() {
     member[i] = api_mst_ship[name];
     auto stype = api_mst_stype[member[i].get("api_stype").get<double>() - 1];
     cout << stype.get("api_name").get<string>() << "　";
-    FORIT(type, stype.get("equip_type").get<picojson::array>()){
-      auto equiptype = api_mst_slotitem_equiptype[type->get<string>()];
-      cout << equiptype.get("api_name").get<string>() << endl;
-      FORIT(equip, equiptype.get("slotitems").get<picojson::array>()){
-        cout << equip->get("api_name").get<string>() << ',';
-      }
-      cout << endl;
-    }
+    // FORIT(type, stype.get("equip_type").get<picojson::array>()){
+    //   auto equiptype = api_mst_slotitem_equiptype[type->get < string > ()];
+    //   cout << type->get<string>() << ' ' << equiptype.get("api_name").get<string>();
+    //   FORIT(equip, equiptype.get("slotitems").get<picojson::array>()){
+    //     cout << equip->get("api_name").get<string>() << ',';
+    //   }
+    //   cout << endl;
+    // }
     cout << name << endl;
     for(auto st : state) {
       cout << st.first << ':';
@@ -141,22 +167,57 @@ int main() {
 
   // ===== select plan ===== //
   int plan = 1;
-  inputUntilCorrect(plan, 0, [] {cout << "[1]: greedy\n[2]: 891 method\n方針を選択して下さい．[1,2] end 0: "; }, ":範囲外です．", [](int n) {
+  inputUntilCorrect(plan, 0, [] {
+    REP(i, plan_name.size()){
+      printf("[%d]: %s\n", i + 1, plan_name[i]);
+    }
+    cout << "方針を選択して下さい．[1,2] end 0: ";
+  }, ":範囲外です．", [](int n) {
     return n < 1 || 2 < n;
+  });
+  // ===== select plan ===== //
+  int target = 100;
+  inputUntilCorrect(target, 0, [] {cout << "目標とする制空値を入力して下さい．[0-] end 0: "; }, ":正の整数を入力して下さい．", [](int n) {
+    return n < 0;
   });
 
   vector<vector<pair<int, picojson::value>>> deck_equips(n, vector<pair<int, picojson::value>>(4));
   vector<P> p;
   REP(i, n){
     auto eq = member[i].get("api_maxeq").get<picojson::array>();
-    cout << member[i].get("api_maxeq") << endl;
     REP(j, 4){
       deck_equips[i][j].first = eq[j].get<double>();
       p.push_back({deck_equips[i][j].first, j, &deck_equips[i][j].second});
     }
   }
-  SORT(p);
-  for(auto pp : p) {
-    cout << pp.maxeq << " " << pp.idx << endl;
+  if (plan == 1)
+    RSORT(p);
+  else if(plan == 2)
+    SORT(p);
+  int calc = 0;
+  REP(i, p.size()){
+    REP(j, i){
+      if (plan == 1)
+        *p[j].equip = have_slotitems[j];
+      else if(plan == 2)
+        *p[j].equip = have_slotitems[i - 1 - j];
+    }
+    calc = calcValue(deck_equips);
+    if(calc >= target) break;
+  }
+  printf("%s : %d/%d\n", plan_name[plan - 1], calc, target);
+  REP(i, deck_equips.size()){
+    auto ship = deck_equips[i];
+    cout << "===" << endl;
+    cout << member[i].get("api_name") << endl;
+    FORIT(slot, ship){
+      printf("[%2d]: ", slot->first);
+      if (!slot->second.is<picojson::null>()){
+        cout << slot->second.get("api_name").get<string>();
+        printf("<%d>", (int)slot->second.get("api_tyku").get<double>());
+      }
+
+      cout << endl;
+    }
   }
 }
