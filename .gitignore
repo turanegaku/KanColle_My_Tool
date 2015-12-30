@@ -5,3 +5,4 @@ Debug/
 *.exe
 
 .prebuild
+*.o
