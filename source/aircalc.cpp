@@ -95,6 +95,12 @@ int main() {
     cout << endl;
   }
 
+  // ===== select plan ===== //
+  int plan = 1;
+  inputUntilCorrect(plan, 0, [] {cout << "[1]: greedy\n[2]: 891 method\n方針を選択して下さい．[1,2] end 0: "; }, ":範囲外です．", [](int n) {
+    return n < 1 || 2 < n;
+  });
+
   vector<vector<pair<int, picojson::value>>> equips(n, vector<pair<int, picojson::value>>(4));
   vector<P> p;
   REP(i, n){
