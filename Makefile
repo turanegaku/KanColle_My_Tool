@@ -11,5 +11,6 @@ origin.o: $(SRCDIR)/aircalc.cpp
 upstream.o: $(SRCDIR)/KanColle_Tool.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
+.PHONY: clean
 clean:
 	-rm -f *.o

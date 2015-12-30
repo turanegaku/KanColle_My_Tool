@@ -210,7 +210,8 @@ int main() {
     auto eq = member[i].get("api_maxeq").get<picojson::array>();
     REP(j, 4){
       deck_equips[i][j].first = eq[j].get<double>();
-      p.push_back({deck_equips[i][j].first, j, &deck_equips[i][j].second});
+      if (deck_equips[i][j].first > 0)
+        p.push_back({deck_equips[i][j].first, j, &deck_equips[i][j].second});
     }
   }
   if (plan == 1)
@@ -232,7 +233,7 @@ int main() {
   REP(i, deck_equips.size()){
     auto ship = deck_equips[i];
     cout << "===" << endl;
-    cout << member[i].get("api_name") << endl;
+    cout << member[i].get("api_name").get<string>() << endl;
     FORIT(slot, ship){
       printf("[%2d]: ", slot->first);
       if (!slot->second.is<picojson::null>()) {
