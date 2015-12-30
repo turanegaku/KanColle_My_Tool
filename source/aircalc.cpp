@@ -38,14 +38,15 @@ vector<pair<string, pair<string, int>>> state = {
   {"運　", {"api_luck", -1}},
 };
 
-template <class T, typename F> void inputUntilCorrect(T &input, T begin, T end, string message, string error, F loop){
+template <class T, typename F1, typename F2> void inputUntilCorrect(T &input, T end, F1 message, string error, F2 loop){
+  T begin = input;
   do {
     if (input == end) {
       cout << "終了します．" << endl;
       exit(0);
     }
     if (input != begin) cout << input << error << endl;
-    cout << message;
+    message();
     cin >> input;
   } while(loop(input));
 }
@@ -64,14 +65,13 @@ int main() {
 
   // ===== number of ships ===== //
   int n = 1;
-  // inputUntilCorrect(n, 1, 0, "艦娘は何人出撃しいますか？ [1-6] end 0: ", ":範囲外です．", f);
-  inputUntilCorrect(n, n, 0, "艦娘は何人出撃しますか？ [1-6] end 0: ", ":範囲外です．", [](int n) {
+  inputUntilCorrect(n, 0, [] {cout << "艦娘は何人出撃しますか？ [1-6] end 0: "; }, ":範囲外です．", [](int n) {
     return n < 1 || 6 < n;
   });
   // ===== who take with ===== //
   vector<string> member(n, "");
   REP(i, n){
-    inputUntilCorrect(member[i], member[i], string("#"), "艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", ":無効な名前です．", [api_mst_ship](string name){
+    inputUntilCorrect(member[i], string("#"), [i, n] {printf("艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", i + 1, n); }, ":無効な名前です．", [api_mst_ship](string name){
       return !api_mst_ship.contains(name);
     });
 
