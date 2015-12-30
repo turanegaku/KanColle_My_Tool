@@ -25,6 +25,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
+typedef pair<pii, picojson::value*> P;
 vector<pair<string, pair<string, int>>> state = {
   {"耐久", {"api_taik", 0}},
   {"装甲", {"api_souk", 1}},
@@ -69,25 +70,41 @@ int main() {
     return n < 1 || 6 < n;
   });
   // ===== who take with ===== //
-  vector<string> member(n, "");
+  vector<picojson::value> member(n);
   REP(i, n){
-    inputUntilCorrect(member[i], string("#"), [i, n] {printf("艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", i + 1, n); }, ":無効な名前です．", [api_mst_ship](string name){
+    string name = "";
+    inputUntilCorrect(name, string("#"), [i, n] {printf("艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", i + 1, n); }, ":無効な名前です．", [api_mst_ship](string name){
       return !api_mst_ship.contains(name);
     });
 
-    cout << member[i] << endl;
-    picojson::value s = api_mst_ship.get(member[i]);
+    cout << name << endl;
+    member[i] = api_mst_ship.get(name);
     for(auto st : state) {
       cout << st.first << ':';
-      if(!s.contains(st.second.first)) {
-        cout << endl;
-        continue;
+      if(member[i].contains(st.second.first)) {
+        picojson::value arr = member[i].get(st.second.first);
+        if (st.second.second != -1)
+          cout << arr.get<picojson::array>()[st.second.second];
+        else
+          cout << arr;
+      } else {
+        cout << "\u2717";
       }
-      picojson::value arr = s.get(st.second.first);
-      if (st.second.second != -1)
-        cout << arr.get<picojson::array>()[st.second.second] << endl;
-      else
-        cout << arr << endl;
+      cout << "　";
+    }
+    cout << endl;
+  }
+
+  vector<vector<pair<int, picojson::value>>> equips(n, vector<pair<int, picojson::value>>(4));
+  vector<P> p;
+  REP(i, n){
+    auto eq = member[i].get("api_maxeq").get<picojson::array>();
+    cout << member[i].get("api_maxeq") << endl;
+    REP(j, 4){
+      equips[i][j].first = eq[j].get<double>();
+      p.push_back({{equips[i][j].first, j}, &equips[i][j].second});
+      cout << equips[i][j].first << endl;
     }
   }
+  SORT(p);
 }
