@@ -25,7 +25,16 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
-typedef pair<pii, picojson::value*> P;
+struct P {
+  int maxeq, idx;
+  picojson::value *equip;
+  bool operator <(const P& p) const {
+    if (maxeq == p.maxeq)
+      return idx > p.idx;
+    return maxeq < p.maxeq;
+  }
+};
+
 vector<pair<string, pair<string, int>>> state = {
   {"耐久", {"api_taik", 0}},
   {"装甲", {"api_souk", 1}},
@@ -104,16 +113,18 @@ int main() {
     return n < 1 || 2 < n;
   });
 
-  vector<vector<pair<int, picojson::value>>> equips(n, vector<pair<int, picojson::value>>(4));
+  vector<vector<pair<int, picojson::value>>> deck_equips(n, vector<pair<int, picojson::value>>(4));
   vector<P> p;
   REP(i, n){
     auto eq = member[i].get("api_maxeq").get<picojson::array>();
     cout << member[i].get("api_maxeq") << endl;
     REP(j, 4){
-      equips[i][j].first = eq[j].get<double>();
-      p.push_back({{equips[i][j].first, j}, &equips[i][j].second});
-      cout << equips[i][j].first << endl;
+      deck_equips[i][j].first = eq[j].get<double>();
+      p.push_back({deck_equips[i][j].first, j, &deck_equips[i][j].second});
     }
   }
   SORT(p);
+  for(auto pp : p) {
+    cout << pp.maxeq << " " << pp.idx << endl;
+  }
 }
