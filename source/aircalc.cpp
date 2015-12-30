@@ -232,7 +232,7 @@ int main() {
   REP(i, deck_equips.size()){
     auto ship = deck_equips[i];
     cout << "===" << endl;
-    cout << member[i].get("api_name") << endl;
+    cout << member[i].get("api_name").get<string>() << endl;
     FORIT(slot, ship){
       printf("[%2d]: ", slot->first);
       if (!slot->second.is<picojson::null>()) {
