@@ -7,6 +7,7 @@ using namespace std;
 //#define LOG(...)
 #define FOR(i, a, b) for(int i = (int)(a); i < (int)(b); ++i)
 #define REP(i, n) for(int i = 0; i < (int)(n); ++i)
+#define FORIT(it, c) for(auto it = (c).begin(); it != (c).end(); ++it)
 #define ALL(a) (a).begin(), (a).end()
 #define RALL(a) (a).rbegin(), (a).rend()
 #define EXIST(s, e) ((s).find(e) != (s).end())
@@ -67,11 +68,34 @@ int main() {
   ifstream fin("data/api_start2");
   while(fin >> v);
   fin.close();
+  // === remap slotitem_equiptype {id : value} === //
+  picojson::object api_mst_slotitem_equiptype;
+  picojson::array api_mst_slotitem = v.get("api_mst_slotitem").get<picojson::array>();
+  FORIT(equiptype, v.get("api_mst_slotitem_equiptype").get<picojson::array>()) {
+    equiptype->get<picojson::object>().insert({"slotitems", picojson::value(picojson::array())});
+    string id = to_string((int)equiptype->get("api_id").get<double>());
+    api_mst_slotitem_equiptype.insert({id, *equiptype});
+  }
+  // === register slotitem to slotitem_equiptype === //
+  FORIT(slotitem, api_mst_slotitem) {
+    string type = to_string((int)slotitem->get("api_type").get<picojson::array>()[2].get<double>());
+    api_mst_slotitem_equiptype[type].get("slotitems").get<picojson::array>().push_back(*slotitem);
+  }
+  // === from stype's equip_type delete unequipable === //
   picojson::array api_mst_stype = v.get("api_mst_stype").get<picojson::array>();
+  FORIT(stype, api_mst_stype){
+    picojson::array equipable;
+    FORIT(it, stype->get("api_equip_type").get<picojson::object>()){
+      if (it->second.get<double>()) {
+        equipable.push_back(picojson::value(it->first));
+      }
+    }
+    stype->get<picojson::object>().insert({"equip_type", picojson::value(equipable)});
+  }
   picojson::object api_mst_ship;
-  for (picojson::value s : v.get("api_mst_ship").get<picojson::array>()) {
-    string name = s.get("api_name").get<string>();
-    api_mst_ship.insert({name, s});
+  FORIT(s, v.get("api_mst_ship").get<picojson::array>()){
+    string name = s->get("api_name").get<string>();
+    api_mst_ship.insert({name, *s});
   }
 
   // ===== number of ships ===== //
@@ -88,8 +112,16 @@ int main() {
     });
 
     member[i] = api_mst_ship[name];
-    int stype = member[i].get("api_stype").get<double>();
-    cout << api_mst_stype[stype - 1].get("api_name").get<string>() << "　";
+    auto stype = api_mst_stype[member[i].get("api_stype").get<double>() - 1];
+    cout << stype.get("api_name").get<string>() << "　";
+    FORIT(type, stype.get("equip_type").get<picojson::array>()){
+      auto equiptype = api_mst_slotitem_equiptype[type->get<string>()];
+      cout << equiptype.get("api_name").get<string>() << endl;
+      FORIT(equip, equiptype.get("slotitems").get<picojson::array>()){
+        cout << equip->get("api_name").get<string>() << ',';
+      }
+      cout << endl;
+    }
     cout << name << endl;
     for(auto st : state) {
       cout << st.first << ':';
