@@ -3,7 +3,7 @@
 
 import json
 d = json.load(
-    open("/Users/turane_gaku/scripts/KanColle_My_Tool/data/api_start2"))
+    open("./data/api_start2"))
 
 
 def p_keys():

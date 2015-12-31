@@ -5,6 +5,19 @@
 - 適度なタイミングで自分で更新してください
 - 取得タイミングはブラウザをリロードして誰かが「艦これ!」とかいう感じのあの辺りです
 
+## 依存
+jsonのparseに[picojson](https://github.com/kazuho/picojson)を使っています．
+```
+git clone https://github.com/kazuho/picojson
+cd picojson
+make install
+```
+あるいはディレクトリにpicojson.hを持ってきて，
+```
+#include "picojson.h"
+```
+してください．
+
 ## plan
 ### greedy
 貪欲  
