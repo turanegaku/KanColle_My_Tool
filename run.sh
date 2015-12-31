@@ -1,1 +1,0 @@
-/Users/turane_gaku/tools/run.sh
