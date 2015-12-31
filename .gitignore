@@ -1,2 +1,10 @@
 Debug/
 *.vcxproj*
+*.gch
+*.out
+*.exe
+
+run.sh
+.prebuild
+*.o
+private.json
