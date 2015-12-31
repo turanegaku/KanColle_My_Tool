@@ -68,7 +68,7 @@ void inputUntilCorrect(T &input, T end, F1 message, string error, F2 loop){
 }
 
 double calcValue(vector<vector<pair<int, picojson::value>>> &deck){
-  int res = 0;
+  double res = 0;
   for(auto &ship : deck) {
     for(auto &slot : ship) {
       if (slot.second.is<picojson::null>()) continue;
