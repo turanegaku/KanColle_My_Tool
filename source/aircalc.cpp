@@ -54,16 +54,12 @@ vector<const char *> plan_name = {
   "891 method",
 };
 
-namespace patch
-{
 template < typename T > std::string to_string( const T& n )
 {
   std::ostringstream stm;
   stm << n;
   return stm.str();
 }
-}
-using namespace patch;
 
 template <class T, typename F1, typename F2> void inputUntilCorrect(T &input, T end, F1 message, string error, F2 loop){
   T begin = input;
