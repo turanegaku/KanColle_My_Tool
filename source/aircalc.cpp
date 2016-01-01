@@ -25,6 +25,11 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
+namespace picoaddr {
+typedef map<string, picojson::value*> object;
+typedef vector<picojson::value*> array;
+}
+
 struct P {
   int maxeq, idx;
   picojson::value *equip;
@@ -84,24 +89,27 @@ int main() {
   ifstream fin("data/api_start2");
   while(fin >> v);
   fin.close();
+
   // === remap slotitem_equiptype {id : value} === //
-  picojson::object api_mst_slotitem_equiptype;
-  picojson::array api_mst_slotitem = v.get("api_mst_slotitem").get<picojson::array>();
+  picoaddr::object api_mst_slotitem_equiptype;
   for(auto &equiptype : v.get("api_mst_slotitem_equiptype").get<picojson::array>()) {
     equiptype.get<picojson::object>().insert({"slotitems", picojson::value(picojson::array())});
     int iid = (int)equiptype.get("api_id").get<double>();
     if (iid > 500) continue;
     string id = to_string(iid);
-    api_mst_slotitem_equiptype.insert({id, equiptype});
+    api_mst_slotitem_equiptype.insert({id, &equiptype});
   }
+
   // === register slotitem to slotitem_equiptype === //
-  for(auto &slotitem : api_mst_slotitem) {
+  picojson::array *api_mst_slotitem = &v.get("api_mst_slotitem").get<picojson::array>();
+  for(auto &slotitem : *api_mst_slotitem) {
     string type = to_string((int)slotitem.get("api_type").get<picojson::array>()[2].get<double>());
-    api_mst_slotitem_equiptype[type].get("slotitems").get<picojson::array>().push_back(slotitem);
+    api_mst_slotitem_equiptype[type]->get("slotitems").get<picojson::array>().push_back(slotitem);
   }
+
   // === from stype's equip_type delete unequipable === //
-  picojson::array api_mst_stype = v.get("api_mst_stype").get<picojson::array>();
-  for(auto &stype : api_mst_stype) {
+  picojson::array *api_mst_stype = &v.get("api_mst_stype").get<picojson::array>();
+  for(auto &stype : *api_mst_stype) {
     picojson::array equipable;
     for(auto &it : stype.get("api_equip_type").get<picojson::object>()) {
       if (it.second.get<double>()) {
@@ -121,7 +129,7 @@ int main() {
     cout << "there" << endl;
     picojson::value prv;
     while(prvfi >> prv);
-    for(auto &equip : api_mst_slotitem) {
+    for(auto &equip : *api_mst_slotitem) {
       string name = equip.get("api_name").get<string>();
       if (prv.contains(name)) {
         REP(i, prv.get(name).get<double>()){
@@ -132,7 +140,7 @@ int main() {
   }else{
     cout << "none" << endl;
     auto prvo = picojson::object();
-    for(auto &equip : api_mst_slotitem) {
+    for(auto &equip : *api_mst_slotitem) {
       if(equip.get("api_id").get<double>() > 500) continue;
       prvo[equip.get("api_name").get < string > ()] = picojson::value(double(1));
       have_slotitems.push_back(equip);
@@ -153,15 +161,15 @@ int main() {
     return n < 1 || 6 < n;
   });
   // ===== who take with ===== //
-  vector<picojson::value> member(n);
+  picoaddr::array member(n);
   REP(i, n){
     string name = "";
     inputUntilCorrect(name, string("#"), [i, n] {printf("艦娘の名前を入力して下さい(%d/%d)．ex.加賀 end #: ", i + 1, n); }, ":無効な名前です．", [api_mst_ship](string name){
       return !EXIST(api_mst_ship, name);
     });
 
-    member[i] = api_mst_ship[name];
-    auto stype = api_mst_stype[member[i].get("api_stype").get<double>() - 1];
+    member[i] = &api_mst_ship[name];
+    picojson::value stype = api_mst_stype->at((int)member[i]->get("api_stype").get<double>() - 1);
     cout << stype.get("api_name").get<string>() << "　";
     // for(auto  type: stype.get("equip_type").get<picojson::array>()){
     //   auto equiptype = api_mst_slotitem_equiptype[type->get < string > ()];
@@ -174,8 +182,8 @@ int main() {
     cout << name << endl;
     for(auto &st : state) {
       cout << st.first << ':';
-      if(member[i].contains(st.second.first)) {
-        picojson::value arr = member[i].get(st.second.first);
+      if(member[i]->contains(st.second.first)) {
+        picojson::value arr = member[i]->get(st.second.first);
         if (st.second.second != -1)
           cout << arr.get<picojson::array>()[st.second.second];
         else
@@ -207,7 +215,7 @@ int main() {
   vector<vector<pair<int, picojson::value>>> deck_equips(n, vector<pair<int, picojson::value>>(4));
   vector<P> p;
   REP(i, n){
-    auto eq = member[i].get("api_maxeq").get<picojson::array>();
+    auto eq = member[i]->get("api_maxeq").get<picojson::array>();
     REP(j, 4){
       deck_equips[i][j].first = eq[j].get<double>();
       if (deck_equips[i][j].first > 0)
@@ -233,7 +241,7 @@ int main() {
   REP(i, deck_equips.size()){
     auto ship = deck_equips[i];
     cout << "===" << endl;
-    cout << member[i].get("api_name").get<string>() << endl;
+    cout << member[i]->get("api_name").get<string>() << endl;
     for(auto &slot : ship) {
       printf("[%2d]: ", slot.first);
       if (!slot.second.is<picojson::null>()) {
